@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\TipoAnimal;
+use App\Models\Users;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostRequest extends FormRequest
+class FormularioAnimalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +26,11 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required|string'
+            'apelido' => 'required|string',
+            'descricao' => 'required|string',
+            'foto' => 'file|image|mimes:jpg,jpeg,png',
+            "usuario" => "required|integer|exists:".Users::class .",id",
+            'tipo' => "required|integer|exists:".TipoAnimal::class .",id",
         ];
     }
 }

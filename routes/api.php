@@ -1,19 +1,10 @@
 <?php
 
+use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\PublicacaotController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -23,15 +14,25 @@ Route::prefix('auth')->group(function () {
 
 Route::group([
     'middleware' => 'auth:sanctum',
-], function ($router) {
+], function () {
     Route::prefix('post')->group(function () {
-        Route::get('/{idPost}', [PostController::class, 'mostar']);
-        Route::get('/', [PostController::class, 'listar']);
+        Route::get('/{idPost}', [PublicacaotController::class, 'mostar']);
+        Route::get('/', [PublicacaotController::class, 'listar']);
 
-        Route::post('/', [PostController::class, 'criar']);
+        Route::post('/', [PublicacaotController::class, 'criar']);
 
-        Route::put('/{idPost}', [PostController::class, 'editar']);
+        Route::put('/{idPost}', [PublicacaotController::class, 'editar']);
 
-        Route::delete('/{idPost}', [PostController::class, 'deletar']);
+        Route::delete('/{idPost}', [PublicacaotController::class, 'deletar']);
+    });
+
+    Route::prefix('animal')->group(function () {
+        Route::get('/{id}', [AnimalController::class, 'mostrar']);
+        Route::get('/', [AnimalController::class, 'listar']);
+
+        Route::post('/{id}', [AnimalController::class, 'editar']);
+        Route::post('/', [AnimalController::class, 'criar']);
+
+        Route::delete('/{id}', [AnimalController::class, 'deletar']);
     });
 });

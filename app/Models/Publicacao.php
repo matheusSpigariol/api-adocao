@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Post extends Model
+class Publicacao extends Model
 {
     use HasFactory;
     use LogsActivity;
@@ -15,7 +15,7 @@ class Post extends Model
     protected static $logOnlyDirty = true;
     protected static $logName = 'Log de post';
 
-    protected $table = "post";
+    protected $table = "Publicacao";
 
     protected $fillable = [
         'description',
