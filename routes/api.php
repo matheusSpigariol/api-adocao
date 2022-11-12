@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicacaotController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -34,5 +35,9 @@ Route::group([
         Route::post('/', [AnimalController::class, 'criar']);
 
         Route::delete('/{id}', [AnimalController::class, 'deletar']);
+    });
+
+    Route::prefix('usuario')->group(function () {
+        Route::get('/{id}', [UsuarioController::class, 'mostrar']);
     });
 });

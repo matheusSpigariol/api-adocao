@@ -22,4 +22,9 @@ class Animal extends Model
     {
         return $this->hasOne(TipoAnimal::class, 'id', 'tipo');
     }
+
+    public function publicacoes()
+    {
+        return $this->belongsToMany(Publicacao::class, 'publicacao_animal', 'publicacao', 'animal');
+    }
 }

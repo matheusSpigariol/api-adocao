@@ -31,6 +31,9 @@ class FormularioAnimalRequest extends FormRequest
             'foto' => 'file|image|mimes:jpg,jpeg,png',
             "usuario" => "required|integer|exists:".Users::class .",id",
             'tipo' => "required|integer|exists:".TipoAnimal::class .",id",
+            'sexo' => "required|boolean",
+            'ano' => "boolean",
+            'mes' => "boolean"
         ];
     }
 }

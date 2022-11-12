@@ -26,10 +26,9 @@ class AnimalController extends Controller
 
     public function mostrar($id)
     {
-        $dados['id'] = $id;
         $animalService = new AnimalService();
 
-        return $animalService->verAnimal($dados);
+        return $animalService->verAnimal($id);
     }
 
     public function listar()
@@ -41,9 +40,8 @@ class AnimalController extends Controller
 
     public function deletar($id)
     {
-        $dados['id'] = $id;
         $animalService = new AnimalService();
 
-        return $animalService->deletarAnimal($dados);
+        return $animalService->deletarAnimal($id);
     }
 }

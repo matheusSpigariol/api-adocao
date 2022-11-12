@@ -11,8 +11,10 @@ class PublicacaoService
     public function cadastrarPublicacao($dados)
     {
         $publicacao = Publicacao::create([
-            'description' => $dados["description"],
-            'user' => auth()->user()->id
+            'descricao' => $dados["descricao"],
+            'usuario' => auth()->user()->id,
+            'latitude' => $dados['latitude'],
+            'longitude' => $dados['longitude']
         ]);
 
         return response()->json([
@@ -29,7 +31,10 @@ class PublicacaoService
         if(!empty($respostaUsuarioAutenticado)) 
             return $respostaUsuarioAutenticado;
 
-        $publicacao->description = $dados["description"];
+        $publicacao->descricao = $dados["descricao"];
+        $publicacao->altitude = $dados["altitude"];
+        $publicacao->longitude = $dados["longitude"];
+
         $publicacao->update();
 
         return response()->json([

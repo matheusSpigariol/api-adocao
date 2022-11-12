@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Publicacao extends Model
+class Endereco extends Model
 {
     use HasFactory;
     use LogsActivity;
@@ -15,15 +15,19 @@ class Publicacao extends Model
     protected static $logOnlyDirty = true;
     protected static $logName = 'Log de post';
 
-    protected $table = "Publicacao";
-
+    protected $table = "endereco";
     protected $fillable = [
-        'description',
-        'user'
+        "rua",
+        "numero",
+        "complemento",
+        "bairro",
+        "cidade",
+        "estado",
+        "cep"
     ];
 
-    public function animais()
+    public function usuario()
     {
-        return $this->belongsToMany(Animal::class, 'publicacao_animal', 'animal', 'publicacao');
+        $this->belongsTo(Users::class, 'endereco', 'id');
     }
 }

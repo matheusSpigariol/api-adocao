@@ -26,7 +26,16 @@ class RegisterUserRequest extends FormRequest
         return [
             "name" => "string|required",
             "email" => "string|email|required",
-            "password" => "string|required"
+            "password" => "string|required",
+            "foto" => "file|image|mimes:jpg,jpeg,png",
+            "data_aniversario "=> "string",
+            "rua" => "required|string",
+            "numero" => "required|integer",
+            "complemento" => "string",
+            "bairro" => "required|string",
+            "cidade" => "required|string",
+            "estado" => "required|string",
+            "cep" => "required|string",
         ];
     }
 }

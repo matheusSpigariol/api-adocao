@@ -23,11 +23,19 @@ class Users extends Model
     protected $fillable= [
         'name',
         'email',
-        'password'
+        'password',
+        "endereco",
+        "foto",
+        "data_aniversario"
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
+    }
+
+    public function endereco()
+    {
+        return $this->hasOne(Endereco::class, 'id', 'endereco');
     }
 }
