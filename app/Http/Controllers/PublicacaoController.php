@@ -80,7 +80,7 @@ class PublicacaoController extends Controller
     }
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      * path="/api/post/{idPost}",
      * summary="Editar publicacao",
      * description="Editar uma publicacao",
@@ -102,7 +102,7 @@ class PublicacaoController extends Controller
      *    required=true,
      *    description="Coloque as informações do post",
      *    @OA\MediaType(
-     *      mediaType="application/json",
+     *      mediaType="multipart/form-data",
      *      encoding={},
      *      @OA\Schema(
      *         type="object", 

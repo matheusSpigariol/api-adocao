@@ -5,6 +5,626 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/animal": {
+            "get": {
+                "tags": [
+                    "Animal"
+                ],
+                "summary": "Listagem de animais",
+                "description": "Lista com paginação de todas os animais.",
+                "operationId": "listarAnimais",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Buscar por numero de paginação"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successo!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "apelido": {
+                                                    "type": "string",
+                                                    "example": "Belinha"
+                                                },
+                                                "descricao": {
+                                                    "type": "string",
+                                                    "example": "docil"
+                                                },
+                                                "foto": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "usuario": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "Data de criação"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "Data de atualização"
+                                                },
+                                                "sexo": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "ano": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "mes": {
+                                                    "type": "integer",
+                                                    "example": "9"
+                                                },
+                                                "tipo": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "titulo": {
+                                                            "type": "string",
+                                                            "example": "cão"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Animal"
+                ],
+                "summary": "Cadastrar animal",
+                "description": "Cadastrar informações de animal",
+                "operationId": "cadastrarAnimal",
+                "requestBody": {
+                    "description": "Coloque as informações do animal",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "apelido",
+                                    "descricao",
+                                    "tipo",
+                                    "sexo"
+                                ],
+                                "properties": {
+                                    "apelido": {
+                                        "type": "string"
+                                    },
+                                    "descricao": {
+                                        "type": "string"
+                                    },
+                                    "tipo": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "sexo": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "ano": {
+                                        "type": "integer"
+                                    },
+                                    "mes": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "encoding": []
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successo!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Conteúdo não processável",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Os dados fornecidos não são válidos."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "Apelido": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo apelido é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "Descrição": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo descrição é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "Tipo": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo tipo é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/animal/{idAnimal}": {
+            "get": {
+                "tags": [
+                    "Animal"
+                ],
+                "summary": "Mostrar animal",
+                "description": "Consultar informações do animal",
+                "operationId": "mostrarAnimal",
+                "parameters": [
+                    {
+                        "name": "idAnimal",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animal": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "apelido": {
+                                                    "type": "string",
+                                                    "example": "Belinha"
+                                                },
+                                                "descricao": {
+                                                    "type": "string",
+                                                    "example": "docil"
+                                                },
+                                                "foto": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "usuario": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2023-01-23T00:21:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2023-01-23T00:21:08.000000Z"
+                                                },
+                                                "sexo": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "ano": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "mes": {
+                                                    "type": "string",
+                                                    "example": "0"
+                                                },
+                                                "tipo": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "titulo": {
+                                                            "type": "string",
+                                                            "example": "cão"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Animal"
+                ],
+                "summary": "Editar animal",
+                "description": "Editar informações de um animal",
+                "operationId": "editarAnimal",
+                "parameters": [
+                    {
+                        "name": "idAnimal",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Coloque as informações do animal",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "apelido",
+                                    "descricao",
+                                    "tipo",
+                                    "sexo"
+                                ],
+                                "properties": {
+                                    "apelido": {
+                                        "type": "string"
+                                    },
+                                    "descricao": {
+                                        "type": "string"
+                                    },
+                                    "tipo": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "sexo": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "ano": {
+                                        "type": "integer"
+                                    },
+                                    "mes": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "encoding": []
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animal": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "apelido": {
+                                                    "type": "string",
+                                                    "example": "Belinha"
+                                                },
+                                                "descricao": {
+                                                    "type": "string",
+                                                    "example": "docil"
+                                                },
+                                                "foto": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "usuario": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2023-01-23T00:21:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2023-01-23T00:21:08.000000Z"
+                                                },
+                                                "sexo": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "ano": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "mes": {
+                                                    "type": "string",
+                                                    "example": "0"
+                                                },
+                                                "tipo": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "titulo": {
+                                                            "type": "string",
+                                                            "example": "cão"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Conteúdo não processável",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Os dados fornecidos não são válidos."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "Apelido": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo apelido é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "Descrição": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo descrição é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "Tipo": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo tipo é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Animal"
+                ],
+                "summary": "Deletar animal",
+                "description": "Deletar informações de um animal",
+                "operationId": "deletarAnimal",
+                "parameters": [
+                    {
+                        "name": "idAnimal",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/post": {
             "get": {
                 "tags": [
@@ -77,9 +697,6 @@
                                 }
                             }
                         }
-                    },
-                    "403": {
-                        "description": "Sem permissão"
                     }
                 },
                 "security": [
@@ -271,7 +888,7 @@
                     }
                 ]
             },
-            "put": {
+            "post": {
                 "tags": [
                     "Publicacao"
                 ],
@@ -293,7 +910,7 @@
                     "description": "Coloque as informações do post",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "description"
