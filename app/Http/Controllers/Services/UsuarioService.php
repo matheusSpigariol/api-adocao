@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Services;
 
 use App\Helpers\AuthHelper;
-use App\Models\Animal;
+use App\Models\Endereco;
 use App\Models\Users;
+use Illuminate\Support\Facades\Storage;
 
 class UsuarioService
 {
@@ -13,30 +14,68 @@ class UsuarioService
 
     public function editarUsuario($dados)
     {
-        $animal = Animal::findOrFail($dados['id']);
-
-        $respostaUsuarioAutenticado = AuthHelper::verificaAuth($animal->usuario);
-
+        $respostaUsuarioAutenticado = AuthHelper::verificaAuth($dados['id']);
         if(!empty($respostaUsuarioAutenticado)) 
             return $respostaUsuarioAutenticado;
+        
+        $usuario = Users::findOrFail($dados['id']);
 
-        $animal->apelido = $dados['apelido'];
-        $animal->descricao = $dados['descricao'];
-        $animal->tipo = $dados['tipo'];
+        $usuario->name = $dados['nome'];
+        $usuario->email = $dados['email'];
 
         if(!empty($dados['foto'])){
-            //codigo para colocar foto no s3
+            if ($usuario->foto != null) {
+                $deletarArquivo = explode('.com/', $usuario->foto);
+                Storage::disk('s3')->delete(str_replace('%20', ' ', $deletarArquivo[1]));
+            }
+
+            $nomeArquivo = date('Ymdhis') . '-' . $dados['foto']->getClientOriginalName();
+            $dados['foto']->storeAs('usuarios/fotos/', $nomeArquivo, 's3');
+            $urlnomeArquivo = Storage::disk('s3')->url("usuarios/fotos/" . $nomeArquivo);
+            $usuario->foto = $urlnomeArquivo;
         }
-        $animal->update();
+
+        $usuario->update();
 
         return response()->json([
-            "animal" => $animal
+            "usuario" => $usuario
         ]);
     }
 
+    public function editarEndereco($dados)
+    {
+        $respostaUsuarioAutenticado = AuthHelper::verificaAuth($dados['id']);
+        if(!empty($respostaUsuarioAutenticado)) 
+            return $respostaUsuarioAutenticado;
+        
+        $usuario = Users::findOrFail($dados['id']);
+        $endereco = Endereco::findOrFail($usuario->endereco);
+
+        $endereco->rua = $dados['rua'];
+        $endereco->numero = $dados['numero'];
+        $endereco->complemento = $dados['complemento'];
+        $endereco->bairro = $dados['bairro'];
+        $endereco->cidade = $dados['cidade'];
+        $endereco->estado = $dados['estado'];
+        $endereco->cep = $dados['cep'];
+
+        $endereco->update();
+
+        return response()->json([
+            "endereço" => $endereco
+        ]);
+    }
+    
     public function verUsuario($id)
     {
-        $usuario = Users::with('endereco')
+        $usuario = Users::select(
+            'id',
+            'name',
+            'email',
+            'endereco',
+            'foto'
+        )
+            ->with('endereco')
             ->findOrFail($id);
 
         return response()->json([
@@ -44,26 +83,20 @@ class UsuarioService
         ]);
     }
 
-    public function listarAnimais()
+    public function listarUsuarios()
     {
-        $animais = Animal::with('tipo:id,titulo')->where('usuario', auth()->user()->id)->get();
+        $usuarios = Users::select(
+            'id',
+            'name',
+            'email',
+            'foto',
+            'endereco'
+        )
+        ->with('endereco')
+        ->paginate(10);
 
         return response()->json([
-            "animais" => $animais
+            "usuarios" => $usuarios
         ]);
-    }
-
-    public function deletarAnimal($dados)
-    {
-        $animal = Animal::findOrFail($dados['id']);
-
-        $respostaUsuarioAutenticado = AuthHelper::verificaAuth($animal->usuario);
-
-        if(!empty($respostaUsuarioAutenticado)) 
-            return $respostaUsuarioAutenticado;
-
-        $animal->delete();
-
-        return response()->json([], 200);
     }
 }

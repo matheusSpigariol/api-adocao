@@ -11,7 +11,7 @@
                     "Animal"
                 ],
                 "summary": "Listagem de animais",
-                "description": "Lista com paginação de todas os animais.",
+                "description": "Lista com paginação de todos os animais.",
                 "operationId": "listarAnimais",
                 "parameters": [
                     {
@@ -1066,9 +1066,636 @@
                     }
                 ]
             }
+        },
+        "/api/animal/{idUsuario}": {
+            "get": {
+                "tags": [
+                    "Usuario"
+                ],
+                "summary": "Mostrar usuario",
+                "description": "Consultar informações do usuario",
+                "operationId": "mostrarUsuario",
+                "parameters": [
+                    {
+                        "name": "idUsuario",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "usuario": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Matheus Eduardo"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "contato.matheused@gmail.com"
+                                                },
+                                                "foto": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "endereco": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "rua": {
+                                                            "type": "string",
+                                                            "example": "João dos Santos"
+                                                        },
+                                                        "numero": {
+                                                            "type": "integer",
+                                                            "example": "231"
+                                                        },
+                                                        "complemento": {
+                                                            "type": "string",
+                                                            "example": "null"
+                                                        },
+                                                        "bairro": {
+                                                            "type": "string",
+                                                            "example": "Ipê"
+                                                        },
+                                                        "cidade": {
+                                                            "type": "string",
+                                                            "example": "Poços de Caldas"
+                                                        },
+                                                        "estado": {
+                                                            "type": "string",
+                                                            "example": "Minas Gerais"
+                                                        },
+                                                        "cep": {
+                                                            "type": "string",
+                                                            "example": "37704205"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuario": {
+            "get": {
+                "tags": [
+                    "Usuario"
+                ],
+                "summary": "Listagem de usuarios",
+                "description": "Lista com paginação de todos os usuarios.",
+                "operationId": "listarUsuarios",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Buscar por numero de paginação"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successo!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Matheus Eduardo"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "contato.matheused@gmail.com"
+                                        },
+                                        "foto": {
+                                            "type": "string",
+                                            "example": "null"
+                                        },
+                                        "endereco": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "rua": {
+                                                    "type": "string",
+                                                    "example": "João dos Santos"
+                                                },
+                                                "numero": {
+                                                    "type": "integer",
+                                                    "example": "231"
+                                                },
+                                                "complemento": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "bairro": {
+                                                    "type": "string",
+                                                    "example": "Ipê"
+                                                },
+                                                "cidade": {
+                                                    "type": "string",
+                                                    "example": "Poços de Caldas"
+                                                },
+                                                "estado": {
+                                                    "type": "string",
+                                                    "example": "Minas Gerais"
+                                                },
+                                                "cep": {
+                                                    "type": "string",
+                                                    "example": "37704205"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuario/{id}": {
+            "post": {
+                "tags": [
+                    "Usuario"
+                ],
+                "summary": "Editar usuário",
+                "description": "Editar informações do usuário",
+                "operationId": "editarUsuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Coloque as informações do usuario",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "foto": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "encoding": []
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "usuario": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Matheus Eduardo"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "contato.matheused@gmail.com"
+                                                },
+                                                "foto": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "endereco": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "rua": {
+                                                            "type": "string",
+                                                            "example": "João dos Santos"
+                                                        },
+                                                        "numero": {
+                                                            "type": "integer",
+                                                            "example": "231"
+                                                        },
+                                                        "complemento": {
+                                                            "type": "string",
+                                                            "example": "null"
+                                                        },
+                                                        "bairro": {
+                                                            "type": "string",
+                                                            "example": "Ipê"
+                                                        },
+                                                        "cidade": {
+                                                            "type": "string",
+                                                            "example": "Poços de Caldas"
+                                                        },
+                                                        "estado": {
+                                                            "type": "string",
+                                                            "example": "Minas Gerais"
+                                                        },
+                                                        "cep": {
+                                                            "type": "string",
+                                                            "example": "37704205"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Conteúdo não processável",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Os dados fornecidos não são válidos."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "Nome": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo nome é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "Email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo email é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuario/endereco/{id}": {
+            "put": {
+                "tags": [
+                    "Usuario"
+                ],
+                "summary": "Editar endereco",
+                "description": "Editar endereco do usuário",
+                "operationId": "editarEnderecoUsuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Coloque as informações do endereço do usuário",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "rua",
+                                    "numero",
+                                    "bairro",
+                                    "cidade",
+                                    "estado",
+                                    "cep"
+                                ],
+                                "properties": {
+                                    "rua": {
+                                        "type": "string"
+                                    },
+                                    "numero": {
+                                        "type": "integer"
+                                    },
+                                    "complemento": {
+                                        "type": "string"
+                                    },
+                                    "bairro": {
+                                        "type": "string"
+                                    },
+                                    "cidade": {
+                                        "type": "string"
+                                    },
+                                    "estado": {
+                                        "type": "string"
+                                    },
+                                    "cep": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "encoding": []
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "usuario": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "rua": {
+                                                    "type": "string",
+                                                    "example": "João dos Santos"
+                                                },
+                                                "numero": {
+                                                    "type": "integer",
+                                                    "example": "231"
+                                                },
+                                                "complemento": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "bairro": {
+                                                    "type": "string",
+                                                    "example": "Ipê"
+                                                },
+                                                "cidade": {
+                                                    "type": "string",
+                                                    "example": "Poços de Caldas"
+                                                },
+                                                "estado": {
+                                                    "type": "string",
+                                                    "example": "Minas Gerais"
+                                                },
+                                                "cep": {
+                                                    "type": "string",
+                                                    "example": "37704205"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Conteúdo não processável",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Os dados fornecidos não são válidos."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "Rua": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo rua é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "Numero": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo numero é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "Bairro": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo bairro é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "Cidade": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo cidade é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "Estado": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo estado é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                },
+                                                "CEP": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": [
+                                                            "O campo CEP é obrigatório."
+                                                        ]
+                                                    },
+                                                    "collectionFormat": "multi"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
+        "responses": {
+            "401": {
+                "description": "Não autorizado",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Não autorizado"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",

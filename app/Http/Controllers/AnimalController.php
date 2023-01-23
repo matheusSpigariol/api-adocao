@@ -391,7 +391,7 @@ class AnimalController extends Controller
      * @OA\Get(
      * path="/api/animal",
      * summary="Listagem de animais",
-     * description="Lista com paginação de todas os animais.",
+     * description="Lista com paginação de todos os animais.",
      * operationId="listarAnimais",
      * tags={"Animal"},
      *  security={

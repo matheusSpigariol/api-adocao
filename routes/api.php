@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicacaoController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,5 +39,10 @@ Route::group([
 
     Route::prefix('usuario')->group(function () {
         Route::get('/{id}', [UsuarioController::class, 'mostrar']);
+        Route::get('/', [UsuarioController::class, 'listar']);
+
+        Route::post('/{id}', [UsuarioController::class, 'editar']);
+
+        Route::put('/endereco/{id}', [UsuarioController::class, 'editarEndereco']);
     });
 });
