@@ -15,10 +15,10 @@ class Publicacao extends Model
     protected static $logOnlyDirty = true;
     protected static $logName = 'Log de post';
 
-    protected $table = "Publicacao";
+    protected $table = "publicacao";
 
     protected $fillable = [
-        'description',
-        'user'
+        'descricao',
+        'usuario'
     ];
 }

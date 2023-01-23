@@ -24,6 +24,7 @@ class AnimalController extends Controller
         return $animalService->editarAnimal($dados);
     }
 
+
     public function mostrar($id)
     {
         $dados['id'] = $id;
