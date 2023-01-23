@@ -15,7 +15,10 @@ class Animal extends Model
         'apelido',
         'descricao',
         'foto',
-        'usuario'
+        'usuario',
+        'sexo',
+        'ano',
+        'mes'
     ];
 
     public function tipo()

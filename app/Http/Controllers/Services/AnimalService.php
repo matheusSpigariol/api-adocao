@@ -14,7 +14,7 @@ class AnimalService
         $animal = Animal::create([
             'apelido' => $dados['apelido'],
             'descricao' => $dados['descricao'],
-            'usuario' => $dados['usuario'],
+            'usuario' => auth()->user()->id,
             'tipo' => $dados['tipo'],
             'sexo' => $dados['sexo'],
             'ano' => $dados['ano'],
@@ -65,12 +65,10 @@ class AnimalService
             'animal' => $animal
         ]);
     }
-
+    
     public function listarAnimais()
     {
-        $animais = Animal::with('tipo:id,titulo')
-            ->where('usuario', auth()->user()->id)
-            ->get();
+        $animais = Animal::with('tipo:id,titulo')->where('usuario', auth()->user()->id)->paginate(10);
 
         return response()->json([
             "animais" => $animais

@@ -11,10 +11,8 @@ class PublicacaoService
     public function cadastrarPublicacao($dados)
     {
         $publicacao = Publicacao::create([
-            'descricao' => $dados["descricao"],
-            'usuario' => auth()->user()->id,
-            'latitude' => $dados['latitude'],
-            'longitude' => $dados['longitude']
+            'descricao' => $dados["description"],
+            'usuario' => auth()->user()->id
         ]);
 
         return response()->json([
@@ -26,15 +24,13 @@ class PublicacaoService
     {
         $publicacao = Publicacao::findOrFail($dados['id']);
 
-        $respostaUsuarioAutenticado = AuthHelper::verificaAuth($publicacao->user);
+        $respostaUsuarioAutenticado = AuthHelper::verificaAuth($publicacao->usuario);
 
         if(!empty($respostaUsuarioAutenticado)) 
             return $respostaUsuarioAutenticado;
 
-        $publicacao->descricao = $dados["descricao"];
-        $publicacao->altitude = $dados["altitude"];
-        $publicacao->longitude = $dados["longitude"];
-
+    
+        $publicacao->descricao = $dados["description"];
         $publicacao->update();
 
         return response()->json([
@@ -53,7 +49,7 @@ class PublicacaoService
 
     public function listarPublicacao()
     {
-        $publicacoes = Publicacao::get();
+        $publicacoes = Publicacao::paginate(10);
 
         return response()->json([
             'publicacoes' => $publicacoes
@@ -64,7 +60,7 @@ class PublicacaoService
     {
         $publicacao = Publicacao::findOrFail($dados['id']);
 
-        $respostaUsuarioAutenticado = AuthHelper::verificaAuth($publicacao->user);
+        $respostaUsuarioAutenticado = AuthHelper::verificaAuth($publicacao->usuario);
         
         if(!empty($respostaUsuarioAutenticado)) 
             return $respostaUsuarioAutenticado;

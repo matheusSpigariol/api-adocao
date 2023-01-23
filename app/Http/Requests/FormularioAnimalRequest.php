@@ -28,12 +28,11 @@ class FormularioAnimalRequest extends FormRequest
         return [
             'apelido' => 'required|string',
             'descricao' => 'required|string',
-            'foto' => 'file|image|mimes:jpg,jpeg,png',
-            "usuario" => "required|integer|exists:".Users::class .",id",
+            'foto' => 'nullable|file|image|mimes:jpg,jpeg,png',
             'tipo' => "required|integer|exists:".TipoAnimal::class .",id",
-            'sexo' => "required|boolean",
-            'ano' => "boolean",
-            'mes' => "boolean"
+            'sexo' => "required|integer|min:0|max:1",
+            'ano' => "nullable|integer",
+            'mes' => "nullable|integer",
         ];
     }
 }
