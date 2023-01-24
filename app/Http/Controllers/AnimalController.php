@@ -33,6 +33,7 @@ class AnimalController extends Controller
      * 
      *      @OA\Property(property="apelido", type="string"),
      *      @OA\Property(property="descricao", type="string"),
+     *      @OA\Property(property="foto", type="file"),
      *      @OA\Property(property="tipo", type="integer", example="1"),
      *      @OA\Property(property="sexo", type="integer", example="1"),
      *      @OA\Property(property="ano", type="integer"),
@@ -135,6 +136,7 @@ class AnimalController extends Controller
      * 
      *      @OA\Property(property="apelido", type="string"),
      *      @OA\Property(property="descricao", type="string"),
+     *      @OA\Property(property="foto", type="file"),
      *      @OA\Property(property="tipo", type="integer", example="1"),
      *      @OA\Property(property="sexo", type="integer", example="1"),
      *      @OA\Property(property="ano", type="integer"),
