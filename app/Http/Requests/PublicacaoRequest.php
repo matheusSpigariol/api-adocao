@@ -25,8 +25,9 @@ class PublicacaoRequest extends FormRequest
     {
         return [
             'descricao' => 'required|string',
-            'latitude' => 'string|nullable',
-            'altitude' => 'string|nullable',
+            "foto" => "nullable|file|image|mimes:jpg,jpeg,png",
+            'animais' => 'nullable|array',
+            'animais.*' => 'required|integer',
         ];
     }
 }

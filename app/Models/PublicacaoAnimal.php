@@ -10,4 +10,10 @@ class PublicacaoAnimal extends Model
     use HasFactory;
 
     protected $table = "publicacao_animal";
+
+    protected $fillable = [
+        'publicacao',
+        'animal',
+        'updated_at'
+    ];
 }

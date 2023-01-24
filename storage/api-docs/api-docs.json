@@ -1077,7 +1077,7 @@
         "/api/post": {
             "get": {
                 "tags": [
-                    "Publicacao"
+                    "Publicações"
                 ],
                 "summary": "Listagem de publicações",
                 "description": "Lista com paginação de todas as publicações.",
@@ -1121,6 +1121,31 @@
                                                 "updated_at": {
                                                     "type": "string",
                                                     "example": "Data de atualização"
+                                                },
+                                                "animais": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": "2"
+                                                            },
+                                                            "apelido": {
+                                                                "type": "string",
+                                                                "example": "Belinha"
+                                                            },
+                                                            "descricao": {
+                                                                "type": "string",
+                                                                "example": "dócil"
+                                                            },
+                                                            "foto": {
+                                                                "type": "string",
+                                                                "example": "null"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "collectionFormat": "multi"
                                                 }
                                             },
                                             "type": "object"
@@ -1156,7 +1181,7 @@
             },
             "post": {
                 "tags": [
-                    "Publicacao"
+                    "Publicações"
                 ],
                 "summary": "Cadastrar publicacao",
                 "description": "Cadastrar publicacao",
@@ -1168,11 +1193,22 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "description"
+                                    "descricao"
                                 ],
                                 "properties": {
-                                    "description": {
+                                    "descricao": {
                                         "type": "string"
+                                    },
+                                    "foto": {
+                                        "type": "string"
+                                    },
+                                    "animais[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "format": "id"
+                                        },
+                                        "collectionFormat": "multi"
                                     }
                                 },
                                 "type": "object"
@@ -1226,12 +1262,12 @@
                                         },
                                         "errors": {
                                             "properties": {
-                                                "Descrição": {
+                                                "descricao": {
                                                     "type": "array",
                                                     "items": {
                                                         "type": "string",
                                                         "example": [
-                                                            "O campo descrição é obrigatório."
+                                                            "O campo descricao é obrigatório."
                                                         ]
                                                     },
                                                     "collectionFormat": "multi"
@@ -1256,7 +1292,7 @@
         "/api/post/{idPost}": {
             "get": {
                 "tags": [
-                    "Publicacao"
+                    "Publicações"
                 ],
                 "summary": "Mostrar Publicacao",
                 "description": "Consultar informações da publicacao",
@@ -1301,6 +1337,31 @@
                                                 "updated_at": {
                                                     "type": "string",
                                                     "example": "2023-01-23T00:21:08.000000Z"
+                                                },
+                                                "animais": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": "2"
+                                                            },
+                                                            "apelido": {
+                                                                "type": "string",
+                                                                "example": "Belinha"
+                                                            },
+                                                            "descricao": {
+                                                                "type": "string",
+                                                                "example": "dócil"
+                                                            },
+                                                            "foto": {
+                                                                "type": "string",
+                                                                "example": "null"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "collectionFormat": "multi"
                                                 }
                                             },
                                             "type": "object"
@@ -1339,7 +1400,7 @@
             },
             "post": {
                 "tags": [
-                    "Publicacao"
+                    "Publicações"
                 ],
                 "summary": "Editar publicacao",
                 "description": "Editar uma publicacao",
@@ -1365,8 +1426,19 @@
                                     "description"
                                 ],
                                 "properties": {
-                                    "description": {
+                                    "descricao": {
                                         "type": "string"
+                                    },
+                                    "foto": {
+                                        "type": "string"
+                                    },
+                                    "animais[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "format": "id"
+                                        },
+                                        "collectionFormat": "multi"
                                     }
                                 },
                                 "type": "object"
@@ -1403,6 +1475,31 @@
                                                 "updated_at": {
                                                     "type": "string",
                                                     "example": "2023-01-23T00:21:08.000000Z"
+                                                },
+                                                "animais": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": "2"
+                                                            },
+                                                            "apelido": {
+                                                                "type": "string",
+                                                                "example": "Belinha"
+                                                            },
+                                                            "descricao": {
+                                                                "type": "string",
+                                                                "example": "dócil"
+                                                            },
+                                                            "foto": {
+                                                                "type": "string",
+                                                                "example": "null"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "collectionFormat": "multi"
                                                 }
                                             },
                                             "type": "object"
@@ -1441,12 +1538,12 @@
                                         },
                                         "errors": {
                                             "properties": {
-                                                "Descrição": {
+                                                "descricao": {
                                                     "type": "array",
                                                     "items": {
                                                         "type": "string",
                                                         "example": [
-                                                            "O campo descrição é obrigatório."
+                                                            "O campo descricao é obrigatório."
                                                         ]
                                                     },
                                                     "collectionFormat": "multi"
@@ -1469,7 +1566,7 @@
             },
             "delete": {
                 "tags": [
-                    "Publicacao"
+                    "Publicações"
                 ],
                 "summary": "Deletar publicacao",
                 "description": "Deletar publicacao",

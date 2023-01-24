@@ -14,7 +14,7 @@ class PublicacaoController extends Controller
      * summary="Cadastrar publicacao",
      * description="Cadastrar publicacao",
      * operationId="cadastrarPublicacao",
-     * tags={"Publicacao"},
+     * tags={"Publicações"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -27,10 +27,17 @@ class PublicacaoController extends Controller
      *      @OA\Schema(
      *         type="object", 
      *      required={
-     *          "description",
+     *          "descricao",
      *      },
      * 
-     *      @OA\Property(property="description", type="string"),
+     *      @OA\Property(property="descricao", type="string"),
+     *      @OA\Property(property="foto", type="string"),
+     *      @OA\Property(
+     *          property="animais[]",
+     *          type="array",
+     *          collectionFormat="multi",
+     *          @OA\Items(type="integer", format="id"),
+     *      ),
      *      ),
      *    )
      * ),
@@ -57,12 +64,12 @@ class PublicacaoController extends Controller
      *           property="errors",
      *           type="object",
      *           @OA\Property(
-     *              property="Descrição",
+     *              property="descricao",
      *              type="array",
      *              collectionFormat="multi",
      *              @OA\Items(
      *                 type="string",
-     *                 example={"O campo descrição é obrigatório."},
+     *                 example={"O campo descricao é obrigatório."},
      *              )
      *           ),
      *        )
@@ -85,7 +92,7 @@ class PublicacaoController extends Controller
      * summary="Editar publicacao",
      * description="Editar uma publicacao",
      * operationId="editarPublicacao",
-     * tags={"Publicacao"},
+     * tags={"Publicações"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -109,8 +116,14 @@ class PublicacaoController extends Controller
      *          required={
      *              "description",
      *          },
-     * 
-     *          @OA\Property(property="description", type="string"),
+     *      @OA\Property(property="descricao", type="string"),
+     *      @OA\Property(property="foto", type="string"),
+     *      @OA\Property(
+     *          property="animais[]",
+     *          type="array",
+     *          collectionFormat="multi",
+     *          @OA\Items(type="integer", format="id"),
+     *      ),
      *      ),
      *    )
      * ),
@@ -146,6 +159,34 @@ class PublicacaoController extends Controller
      *              type="string",
      *              example="2023-01-23T00:21:08.000000Z",
      *           ),
+     *           @OA\Property(
+     *              property="animais",
+     *              type="array",
+     *              collectionFormat="multi",
+     *              @OA\Items(
+     *                 type="object",
+     *                  @OA\Property(
+     *                      property="id",
+     *                      type="integer",
+     *                      example="2",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="apelido",
+     *                      type="string",
+     *                      example="Belinha",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="descricao",
+     *                      type="string",
+     *                      example="dócil",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="foto",
+     *                      type="string",
+     *                      example="null",
+     *                  ),
+     *              )
+     *           ),
      *        )
      *    )
      * ),
@@ -165,12 +206,12 @@ class PublicacaoController extends Controller
      *           property="errors",
      *           type="object",
      *           @OA\Property(
-     *              property="Descrição",
+     *              property="descricao",
      *              type="array",
      *              collectionFormat="multi",
      *              @OA\Items(
      *                 type="string",
-     *                 example={"O campo descrição é obrigatório."},
+     *                 example={"O campo descricao é obrigatório."},
      *              )
      *           ),
      *        )
@@ -188,14 +229,13 @@ class PublicacaoController extends Controller
         return $publicacaoService->editaPublicacao($dados); 
     }
 
-    
     /**
      * @OA\Get(
      * path="/api/post/{idPost}",
      * summary="Mostrar Publicacao",
      * description="Consultar informações da publicacao",
      * operationId="mostrarPublicacao",
-     * tags={"Publicacao"},
+     * tags={"Publicações"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -241,6 +281,34 @@ class PublicacaoController extends Controller
      *              type="string",
      *              example="2023-01-23T00:21:08.000000Z",
      *           ),
+     *           @OA\Property(
+     *              property="animais",
+     *              type="array",
+     *              collectionFormat="multi",
+     *              @OA\Items(
+     *                 type="object",
+     *                  @OA\Property(
+     *                      property="id",
+     *                      type="integer",
+     *                      example="2",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="apelido",
+     *                      type="string",
+     *                      example="Belinha",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="descricao",
+     *                      type="string",
+     *                      example="dócil",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="foto",
+     *                      type="string",
+     *                      example="null",
+     *                  ),
+     *              )
+     *           ),
      *        )
      *    )
      * ),
@@ -272,7 +340,7 @@ class PublicacaoController extends Controller
      * summary="Listagem de publicações",
      * description="Lista com paginação de todas as publicações.",
      * operationId="listarPublicacao",
-     * tags={"Publicacao"},
+     * tags={"Publicações"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -314,6 +382,34 @@ class PublicacaoController extends Controller
      *              type="string",
      *              example="Data de atualização",
      *           ),
+     *           @OA\Property(
+     *              property="animais",
+     *              type="array",
+     *              collectionFormat="multi",
+     *              @OA\Items(
+     *                 type="object",
+     *                  @OA\Property(
+     *                      property="id",
+     *                      type="integer",
+     *                      example="2",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="apelido",
+     *                      type="string",
+     *                      example="Belinha",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="descricao",
+     *                      type="string",
+     *                      example="dócil",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="foto",
+     *                      type="string",
+     *                      example="null",
+     *                  ),
+     *              )
+     *           ),
      *      )
      *    )
      * ),
@@ -333,7 +429,6 @@ class PublicacaoController extends Controller
 
         return $publicacaoService->listarPublicacao(); 
     }
-
     
     /**
      * @OA\Delete(
@@ -341,7 +436,7 @@ class PublicacaoController extends Controller
      * summary="Deletar publicacao",
      * description="Deletar publicacao",
      * operationId="deletarPublicacao",
-     * tags={"Publicacao"},
+     * tags={"Publicações"},
      *  security={
      *     {"bearerAuth": {}}
      *  },

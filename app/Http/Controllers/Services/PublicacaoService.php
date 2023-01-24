@@ -2,7 +2,9 @@
 namespace App\Http\Controllers\Services;
 
 use App\Helpers\AuthHelper;
+use App\Models\Animal;
 use App\Models\Publicacao;
+use Illuminate\Support\Facades\Storage;
 
 class PublicacaoService
 {
@@ -10,10 +12,22 @@ class PublicacaoService
 
     public function cadastrarPublicacao($dados)
     {
+        $nomeArquivo = null;
+        if($dados['foto']){
+            $nomeArquivo = date('Ymdhis') . '-' . $dados['foto']->getClientOriginalName();
+            $dados['foto']->storeAs('publicacoes/fotos/', $nomeArquivo, 's3');
+            $urlnomeArquivo = Storage::disk('s3')->url("publicacoes/fotos/" . $nomeArquivo);
+        }
+
         $publicacao = Publicacao::create([
-            'descricao' => $dados["description"],
-            'usuario' => auth()->user()->id
+            'descricao' => $dados["descricao"],
+            'usuario' => auth()->user()->id,
+            'foto' => $urlnomeArquivo
         ]);
+
+        if($dados['animais']){
+            $publicacao->animais()->sync($dados['animais']);
+        }
 
         return response()->json([
             "id" => $publicacao->id
@@ -29,9 +43,23 @@ class PublicacaoService
         if(!empty($respostaUsuarioAutenticado)) 
             return $respostaUsuarioAutenticado;
 
-    
-        $publicacao->descricao = $dados["description"];
+        if(!empty($dados['foto'])){
+            if ($publicacao->foto != null) {
+                $deletarArquivo = explode('.com/', $publicacao->foto);
+                Storage::disk('s3')->delete(str_replace('%20', ' ', $deletarArquivo[1]));
+            }
+
+            $nomeArquivo = date('Ymdhis') . '-' . $dados['foto']->getClientOriginalName();
+            $dados['foto']->storeAs('publicacoes/fotos/', $nomeArquivo, 's3');
+            $urlnomeArquivo = Storage::disk('s3')->url("publicacoes/fotos/" . $nomeArquivo);
+            $publicacao->foto = $urlnomeArquivo;
+        }
+
+        $publicacao->descricao = $dados["descricao"];
+
         $publicacao->update();
+
+        $publicacao->animais()->sync(!empty($dados['animais']) ? $dados['animais'] : []);
 
         return response()->json([
             'publicacao' => $publicacao
@@ -40,7 +68,8 @@ class PublicacaoService
 
     public function verPublicacao($dados)
     {
-        $publicacao = Publicacao::findOrFail($dados['id']);
+        $publicacao = Publicacao::with('animais:id,apelido,descricao,foto')
+            ->findOrFail($dados['id']);
 
         return response()->json([
             'publicacao' => $publicacao
@@ -49,7 +78,8 @@ class PublicacaoService
 
     public function listarPublicacao()
     {
-        $publicacoes = Publicacao::paginate(10);
+        $publicacoes = Publicacao::with('animais:id,apelido,descricao,foto')
+            ->paginate(10);
 
         return response()->json([
             'publicacoes' => $publicacoes
@@ -64,6 +94,8 @@ class PublicacaoService
         
         if(!empty($respostaUsuarioAutenticado)) 
             return $respostaUsuarioAutenticado;
+
+        $publicacao->animais()->sync([]);
 
         $publicacao->delete();
 

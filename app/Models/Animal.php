@@ -28,6 +28,6 @@ class Animal extends Model
 
     public function publicacoes()
     {
-        return $this->belongsToMany(Publicacao::class, 'publicacao_animal', 'publicacao', 'animal');
+        return $this->belongsToMany(Publicacao::class, 'publicacao_animal', 'animal', 'publicacao');
     }
 }

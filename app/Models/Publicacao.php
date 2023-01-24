@@ -19,11 +19,12 @@ class Publicacao extends Model
 
     protected $fillable = [
         'descricao',
-        'usuario'
+        'usuario',
+        'foto'
     ];
 
     public function animais()
     {
-        return $this->belongsToMany(Animal::class, 'publicacao_animal', 'animal', 'publicacao');
+        return $this->belongsToMany(Animal::class, 'publicacao_animal', 'publicacao', 'animal');
     }
 }

@@ -22,7 +22,7 @@ Route::group([
 
         Route::post('/', [PublicacaoController::class, 'criar']);
 
-        Route::put('/{idPost}', [PublicacaoController::class, 'editar']);
+        Route::post('/{idPost}', [PublicacaoController::class, 'editar']);
 
         Route::delete('/{idPost}', [PublicacaoController::class, 'deletar']);
     });
