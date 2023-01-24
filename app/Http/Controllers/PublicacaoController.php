@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Services\PublicacaoService;
 use App\Http\Requests\PublicacaoRequest;
+use Illuminate\Http\Request;
 
 class PublicacaoController extends Controller
 {
@@ -349,6 +350,16 @@ class PublicacaoController extends Controller
      *   in="query",
      *   description="Buscar por numero de paginação",
      * ),
+     * @OA\Parameter(
+     *   name="descricao",
+     *   in="query",
+     *   description="Buscar por publicações que contenham a descrição",
+     * ),
+     * @OA\Parameter(
+     *   name="cidade",
+     *   in="query",
+     *   description="Buscar por cidade da publicação",
+     * ),
      * @OA\Response(
      *    response=200,
      *    description="Successo!",
@@ -369,8 +380,55 @@ class PublicacaoController extends Controller
      *           ),
      *          @OA\Property(
      *              property="usuario",
-     *              type="integer",
-     *              example="1",
+     *              type="object",
+     *              @OA\Property(
+     *                  property="id",
+     *                  type="integer",
+     *                  example="5",
+     *              ),
+     *              @OA\Property(
+     *                  property="nome",
+     *                  type="string",
+     *                  example="Matheus",
+     *              ),
+     *              @OA\Property(
+     *                  property="endereco",
+     *                  type="array",
+     *                  collectionFormat="multi",
+     *                  @OA\Items(
+     *                  type="object",
+     *                      @OA\Property(
+     *                          property="id",
+     *                          type="integer",
+     *                          example="2",
+     *                      ),
+     *                      @OA\Property(
+     *                          property="rua",
+     *                          type="string",
+     *                          example="João da nica2",
+     *                      ),
+     *                      @OA\Property(
+     *                          property="numero",
+     *                          type="integer",
+     *                          example="3000",
+     *                      ),
+     *                      @OA\Property(
+     *                          property="bairro",
+     *                          type="string",
+     *                          example="Ipê",
+     *                      ),
+     *                      @OA\Property(
+     *                          property="cidade",
+     *                          type="string",
+     *                          example="Poços de Caldas",
+     *                      ),
+      *                      @OA\Property(
+     *                          property="estado",
+     *                          type="string",
+     *                          example="MG",
+     *                      ),
+     *              )
+     *           ),
      *           ),
      *          @OA\Property(
      *              property="created_at",
@@ -423,11 +481,12 @@ class PublicacaoController extends Controller
      * )
      */
 
-    public function listar()
+    public function listar(Request $request)
     {
+        $dados = $request->all();
         $publicacaoService = new PublicacaoService();
 
-        return $publicacaoService->listarPublicacao(); 
+        return $publicacaoService->listarPublicacao($dados); 
     }
     
     /**

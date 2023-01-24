@@ -27,4 +27,9 @@ class Publicacao extends Model
     {
         return $this->belongsToMany(Animal::class, 'publicacao_animal', 'publicacao', 'animal');
     }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Users::class, 'usuario', 'id');
+    }
 }

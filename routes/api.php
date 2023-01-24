@@ -28,6 +28,7 @@ Route::group([
     });
 
     Route::prefix('animal')->group(function () {
+        Route::get('/tipos', [AnimalController::class, 'listarTiposAnimais']);
         Route::get('/{id}', [AnimalController::class, 'mostrar']);
         Route::get('/', [AnimalController::class, 'listar']);
 

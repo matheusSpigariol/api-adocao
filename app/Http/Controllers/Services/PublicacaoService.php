@@ -76,10 +76,22 @@ class PublicacaoService
         ],200);
     }
 
-    public function listarPublicacao()
+    public function listarPublicacao($filtros)
     {
-        $publicacoes = Publicacao::with('animais:id,apelido,descricao,foto')
-            ->paginate(10);
+        $publicacoes = Publicacao::select()
+            ->with('animais:id,apelido,descricao,foto', 'usuario:id,name,endereco', 'usuario.endereco:id,rua,numero,bairro,cidade,estado');
+
+        if(!empty($filtros['descricao'])){
+            $publicacoes = $publicacoes->where('descricao', 'like', '%'.$filtros['descricao'].'%');
+        }
+
+        if(!empty($filtros['cidade'])){
+            $publicacoes = $publicacoes->leftJoin('users', 'publicacao.usuario', '=', 'users.id')
+                ->leftJoin('endereco', 'users.endereco', '=', 'endereco.id')
+                ->where('endereco.cidade', 'like', '%'. $filtros['cidade']. '%');
+        }
+
+        $publicacoes = $publicacoes->paginate(10);
 
         return response()->json([
             'publicacoes' => $publicacoes

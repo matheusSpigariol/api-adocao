@@ -15,7 +15,7 @@ class UsuarioController extends Controller
      * summary="Mostrar usuario",
      * description="Consultar informações do usuario",
      * operationId="mostrarUsuario",
-     * tags={"Usuario"},
+     * tags={"Usuarios"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -130,7 +130,7 @@ class UsuarioController extends Controller
      * summary="Listagem de usuarios",
      * description="Lista com paginação de todos os usuarios.",
      * operationId="listarUsuarios",
-     * tags={"Usuario"},
+     * tags={"Usuarios"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -138,6 +138,11 @@ class UsuarioController extends Controller
      *   name="page",
      *   in="query",
      *   description="Buscar por numero de paginação",
+     * ),
+     * @OA\Parameter(
+     *   name="nome",
+     *   in="query",
+     *   description="Buscar pelo nome do usuário",
      * ),
      * @OA\Response(
      *    response=200,
@@ -221,11 +226,12 @@ class UsuarioController extends Controller
      * )
      */
 
-    public function listar()
+    public function listar(Request $request)
     {
+        $dados = $request->all();
         $usuarioService = new UsuarioService();
 
-        return $usuarioService->listarUsuarios();
+        return $usuarioService->listarUsuarios($dados);
     }
 
     /**
@@ -234,7 +240,7 @@ class UsuarioController extends Controller
      * summary="Editar usuário",
      * description="Editar informações do usuário",
      * operationId="editarUsuario",
-     * tags={"Usuario"},
+     * tags={"Usuarios"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -392,7 +398,7 @@ class UsuarioController extends Controller
      * summary="Editar endereco",
      * description="Editar endereco do usuário",
      * operationId="editarEnderecoUsuario",
-     * tags={"Usuario"},
+     * tags={"Usuarios"},
      *  security={
      *     {"bearerAuth": {}}
      *  },

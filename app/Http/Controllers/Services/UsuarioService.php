@@ -83,7 +83,7 @@ class UsuarioService
         ]);
     }
 
-    public function listarUsuarios()
+    public function listarUsuarios($filtros)
     {
         $usuarios = Users::select(
             'id',
@@ -92,8 +92,13 @@ class UsuarioService
             'foto',
             'endereco'
         )
-        ->with('endereco')
-        ->paginate(10);
+        ->with('endereco');
+
+        if($filtros['nome']){
+            $usuarios = $usuarios->where('name', 'like', '%'.$filtros['nome'].'%');
+        }
+
+        $usuarios = $usuarios->paginate(10);
 
         return response()->json([
             "usuarios" => $usuarios

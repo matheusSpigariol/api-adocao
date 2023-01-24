@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Services;
 
 use App\Helpers\AuthHelper;
 use App\Models\Animal;
+use App\Models\TipoAnimal;
 
 class AnimalService
 {
@@ -66,12 +67,42 @@ class AnimalService
         ]);
     }
     
-    public function listarAnimais()
+    public function listarAnimais($filtros)
     {
-        $animais = Animal::with('tipo:id,titulo')->where('usuario', auth()->user()->id)->paginate(10);
+        $animais = Animal::select('animal.*')
+            ->with('tipo:id,titulo')
+            ->orderBy('apelido', 'ASC');
+
+        if(!empty($filtros['apelido'])){
+            $animais = $animais->where('apelido', 'like', '%'. $filtros['apelido']. '%');
+        }
+
+        if(!empty($filtros['cidade'])){
+            $animais = $animais->leftJoin('users', 'animal.usuario', '=', 'users.id')
+                ->leftJoin('endereco', 'users.endereco', '=', 'endereco.id')
+                ->where('endereco.cidade', 'like', '%'. $filtros['cidade']. '%');
+        }
+
+        if(!empty($filtros['tipo'])){
+            $animais = $animais->leftJoin('tipo_animal', 'animal.tipo', '=', 'tipo_animal.id')
+                ->where('tipo_animal.id', $filtros['tipo']);
+        }
+
+        
+        $animais = $animais->paginate(10);
 
         return response()->json([
             "animais" => $animais
+        ]);
+    }
+
+    public function listarTiposAnimais()
+    {
+        $tiposAnimais = TipoAnimal::select('id', 'titulo')
+            ->get();
+
+        return response()->json([
+            "tipos" => $tiposAnimais
         ]);
     }
 

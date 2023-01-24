@@ -8,7 +8,7 @@
         "/api/animal": {
             "get": {
                 "tags": [
-                    "Animal"
+                    "Animais"
                 ],
                 "summary": "Listagem de animais",
                 "description": "Lista com paginação de todos os animais.",
@@ -18,6 +18,21 @@
                         "name": "page",
                         "in": "query",
                         "description": "Buscar por numero de paginação"
+                    },
+                    {
+                        "name": "apelido",
+                        "in": "query",
+                        "description": "Buscar por apelido do animal"
+                    },
+                    {
+                        "name": "tipo",
+                        "in": "query",
+                        "description": "Buscar por tipo do animal"
+                    },
+                    {
+                        "name": "cidade",
+                        "in": "query",
+                        "description": "Buscar por animais em cidade"
                     }
                 ],
                 "responses": {
@@ -120,7 +135,7 @@
             },
             "post": {
                 "tags": [
-                    "Animal"
+                    "Animais"
                 ],
                 "summary": "Cadastrar animal",
                 "description": "Cadastrar informações de animal",
@@ -260,7 +275,7 @@
         "/api/animal/{idAnimal}": {
             "get": {
                 "tags": [
-                    "Animal"
+                    "Animais"
                 ],
                 "summary": "Mostrar animal",
                 "description": "Consultar informações do animal",
@@ -375,7 +390,7 @@
             },
             "post": {
                 "tags": [
-                    "Animal"
+                    "Animais"
                 ],
                 "summary": "Editar animal",
                 "description": "Editar informações de um animal",
@@ -578,7 +593,7 @@
             },
             "delete": {
                 "tags": [
-                    "Animal"
+                    "Animais"
                 ],
                 "summary": "Deletar animal",
                 "description": "Deletar informações de um animal",
@@ -597,6 +612,71 @@
                 "responses": {
                     "200": {
                         "description": ""
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/animal/tipos": {
+            "get": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Listar tipos de animais",
+                "description": "Listar todos os tipos de animais",
+                "operationId": "listarTipos",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "tipos": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "titulo": {
+                                                        "type": "string",
+                                                        "example": "cão"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "collectionFormat": "multi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Não autorizado",
@@ -1087,6 +1167,16 @@
                         "name": "page",
                         "in": "query",
                         "description": "Buscar por numero de paginação"
+                    },
+                    {
+                        "name": "descricao",
+                        "in": "query",
+                        "description": "Buscar por publicações que contenham a descrição"
+                    },
+                    {
+                        "name": "cidade",
+                        "in": "query",
+                        "description": "Buscar por cidade da publicação"
                     }
                 ],
                 "responses": {
@@ -1111,8 +1201,50 @@
                                                     "example": "Descrição da publicação"
                                                 },
                                                 "usuario": {
-                                                    "type": "integer",
-                                                    "example": "1"
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": "5"
+                                                        },
+                                                        "nome": {
+                                                            "type": "string",
+                                                            "example": "Matheus"
+                                                        },
+                                                        "endereco": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": "2"
+                                                                    },
+                                                                    "rua": {
+                                                                        "type": "string",
+                                                                        "example": "João da nica2"
+                                                                    },
+                                                                    "numero": {
+                                                                        "type": "integer",
+                                                                        "example": "3000"
+                                                                    },
+                                                                    "bairro": {
+                                                                        "type": "string",
+                                                                        "example": "Ipê"
+                                                                    },
+                                                                    "cidade": {
+                                                                        "type": "string",
+                                                                        "example": "Poços de Caldas"
+                                                                    },
+                                                                    "estado": {
+                                                                        "type": "string",
+                                                                        "example": "MG"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "collectionFormat": "multi"
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -1616,7 +1748,7 @@
         "/api/animal/{idUsuario}": {
             "get": {
                 "tags": [
-                    "Usuario"
+                    "Usuarios"
                 ],
                 "summary": "Mostrar usuario",
                 "description": "Consultar informações do usuario",
@@ -1733,7 +1865,7 @@
         "/api/usuario": {
             "get": {
                 "tags": [
-                    "Usuario"
+                    "Usuarios"
                 ],
                 "summary": "Listagem de usuarios",
                 "description": "Lista com paginação de todos os usuarios.",
@@ -1743,6 +1875,11 @@
                         "name": "page",
                         "in": "query",
                         "description": "Buscar por numero de paginação"
+                    },
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Buscar pelo nome do usuário"
                     }
                 ],
                 "responses": {
@@ -1826,7 +1963,7 @@
         "/api/usuario/{id}": {
             "post": {
                 "tags": [
-                    "Usuario"
+                    "Usuarios"
                 ],
                 "summary": "Editar usuário",
                 "description": "Editar informações do usuário",
@@ -2008,7 +2145,7 @@
         "/api/usuario/endereco/{id}": {
             "put": {
                 "tags": [
-                    "Usuario"
+                    "Usuarios"
                 ],
                 "summary": "Editar endereco",
                 "description": "Editar endereco do usuário",

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Services\AnimalService;
 use App\Http\Requests\FormularioAnimalRequest;
+use Illuminate\Http\Request;
 
 class AnimalController extends Controller
 {
@@ -14,7 +15,7 @@ class AnimalController extends Controller
      * summary="Cadastrar animal",
      * description="Cadastrar informações de animal",
      * operationId="cadastrarAnimal",
-     * tags={"Animal"},
+     * tags={"Animais"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -107,7 +108,7 @@ class AnimalController extends Controller
      * summary="Editar animal",
      * description="Editar informações de um animal",
      * operationId="editarAnimal",
-     * tags={"Animal"},
+     * tags={"Animais"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -272,14 +273,13 @@ class AnimalController extends Controller
         return $animalService->editarAnimal($dados);
     }
 
-
      /**
      * @OA\Get(
      * path="/api/animal/{idAnimal}",
      * summary="Mostrar animal",
      * description="Consultar informações do animal",
      * operationId="mostrarAnimal",
-     * tags={"Animal"},
+     * tags={"Animais"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -393,7 +393,7 @@ class AnimalController extends Controller
      * summary="Listagem de animais",
      * description="Lista com paginação de todos os animais.",
      * operationId="listarAnimais",
-     * tags={"Animal"},
+     * tags={"Animais"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
@@ -401,6 +401,21 @@ class AnimalController extends Controller
      *   name="page",
      *   in="query",
      *   description="Buscar por numero de paginação",
+     * ),
+     * @OA\Parameter(
+     *   name="apelido",
+     *   in="query",
+     *   description="Buscar por apelido do animal",
+     * ),
+     * @OA\Parameter(
+     *   name="tipo",
+     *   in="query",
+     *   description="Buscar por tipo do animal",
+     * ),
+     * @OA\Parameter(
+     *   name="cidade",
+     *   in="query",
+     *   description="Buscar por animais em cidade",
      * ),
      * @OA\Response(
      *    response=200,
@@ -487,11 +502,80 @@ class AnimalController extends Controller
      * )
      */
 
-    public function listar()
+    public function listar(Request $request)
+    {
+        $dados = $request->all();
+        $animalService = new AnimalService();
+
+        return $animalService->listarAnimais($dados);
+    }
+
+
+     /**
+     * @OA\Get(
+     * path="/api/animal/tipos",
+     * summary="Listar tipos de animais",
+     * description="Listar todos os tipos de animais",
+     * operationId="listarTipos",
+     * tags={"Animais"},
+     *  security={
+     *     {"bearerAuth": {}}
+     *  },
+     * @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *    @OA\JsonContent(
+     *        @OA\Property(
+     *           property="tipos",
+     *           type="array",
+     *           collectionFormat="multi",
+     *           @OA\Items(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="id",
+     *                  type="integer",
+     *                  example="1",
+     *              ),
+     *              @OA\Property(
+     *                  property="titulo",
+     *                  type="string",
+     *                  example="cão",
+     *              ),
+     *           ),
+     *           @OA\Items(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="id",
+     *                  type="integer",
+     *                  example="2",
+     *              ),
+     *              @OA\Property(
+     *                  property="titulo",
+     *                  type="string",
+     *                  example="gato",
+     *              ),
+     *           ),
+     *        )
+     *    )
+     * ),
+     * @OA\Response(
+     *    response=401,
+     *    description="Não autorizado",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="message", type="string", example="Não autorizado"),
+     *    )
+     * ),
+     * @OA\Response(
+     *    response=404,
+     *    description="Animal não encontrado",
+     * ),
+     * )
+     */
+    public function listarTiposAnimais()
     {
         $animalService = new AnimalService();
 
-        return $animalService->listarAnimais();
+        return $animalService->listarTiposAnimais();
     }
 
     /**
@@ -500,7 +584,7 @@ class AnimalController extends Controller
      * summary="Deletar animal",
      * description="Deletar informações de um animal",
      * operationId="deletarAnimal",
-     * tags={"Animal"},
+     * tags={"Animais"},
      *  security={
      *     {"bearerAuth": {}}
      *  },
